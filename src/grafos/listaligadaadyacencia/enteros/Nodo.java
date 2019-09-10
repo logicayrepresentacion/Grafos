@@ -20,25 +20,34 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-package grafos.ejercicios;
-
-import grafos.ListaLigadaAdyacencia.GrafoListaLigadaAdyacencia;
-import grafos.matrizincidencia.listaligadaforma1.GrafoMatrizIncidenciaEnListaLigadaForma1;
-import java.io.FileNotFoundException;
-import matriz.listaligadaforma1.MatrizEnListaLigadaForma1;
+package grafos.listaligadaadyacencia.enteros;
 
 /**
  *
- * @author Alejandro
+ * @author alejandroescobar
  */
-public class Ejercicio11 {
+public class Nodo {
+    private int vertice;
+    private Nodo liga;
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) throws FileNotFoundException {
-        MatrizEnListaLigadaForma1 mellf = MatrizEnListaLigadaForma1.crearMatrizDesdeArchivo("matrizincidencia1.txt");
-        GrafoMatrizIncidenciaEnListaLigadaForma1 gmiellf = new GrafoMatrizIncidenciaEnListaLigadaForma1(mellf);
-        GrafoListaLigadaAdyacencia glla = GrafoListaLigadaAdyacencia.parseGrafoMatrizIncidenciaEnListaLigadaForma1(gmiellf);
+    public Nodo(int v) {
+        vertice = v;
     }
+
+    public int getVertice() {
+        return vertice;
+    }
+
+    public void setVertice(int vertice) {
+        this.vertice = vertice;
+    }
+
+    public Nodo getLiga() {
+        return liga;
+    }
+
+    public void setLiga(Nodo liga) {
+        this.liga = liga;
+    }
+    
 }

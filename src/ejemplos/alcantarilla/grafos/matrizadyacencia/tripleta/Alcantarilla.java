@@ -20,7 +20,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-package grafos.matrizadyacencia.tripleta.ejemplos.alcantarilla;
+package ejemplos.alcantarilla.grafos.matrizadyacencia.tripleta;
 
 import grafos.matrizadyacencia.tripleta.GrafoMatrizAdyacenciaEnMatrizTripleta;
 import java.util.Scanner;
@@ -37,33 +37,41 @@ public class Alcantarilla {
      */
     public static void main(String[] args) {
         /**
-         * 
+         * Para leer el teclado
          */
         Scanner sc = new Scanner(System.in);
         String linea = sc.nextLine();
         int nv = Integer.parseInt(linea.trim());
-        GrafoMatrizAdyacenciaEnMatrizTripleta matrizEnTripleta = new GrafoMatrizAdyacenciaEnMatrizTripleta(nv, nv);
+
+        /**
+         * matriz representada en memoria
+         */
+        GrafoMatrizAdyacenciaEnMatrizTripleta grafoMatrizEnTripleta = new GrafoMatrizAdyacenciaEnMatrizTripleta(nv, nv);
+
+        /**
+         * Cargar la matriz de los datos ingresados por pantalla a la matriz en
+         * memoria
+         */
         int cv = 0;
-        for( int i = 0; i < nv; i++){
+        for (int i = 0; i < nv; i++) {
             linea = sc.nextLine();
-            for( int j = 0; j< nv; j++){
-                if( linea.charAt(j) == '1'){
+            for (int j = 0; j < nv; j++) {
+                if (linea.charAt(j) == '1') {
                     cv++;
-                    Tripleta t = new Tripleta(i+1, j+1, 1);
-                    matrizEnTripleta.setTripleta(cv, t);
+                    Tripleta t = new Tripleta(i + 1, j + 1, 1);
+                    grafoMatrizEnTripleta.setTripleta(cv, t);
                 }
             }
         }
-        
+
         Tripleta conf = new Tripleta(nv, nv, cv);
-        matrizEnTripleta.setTripleta(0, conf);
-        
-        System.out.println( matrizEnTripleta.grado(1) );
-        System.out.println( matrizEnTripleta.grado(2) );
-        System.out.println( matrizEnTripleta.grado(3) );
-        System.out.println( matrizEnTripleta.grado(4) );
-        System.out.println( matrizEnTripleta.grado(5) );
-        
+        grafoMatrizEnTripleta.setTripleta(0, conf);
+
+        /**
+         * Comparo para descubrir la respuesta
+         */
+        System.out.println("La alcantarilla  que se conecta más con otras alcantarillas es " + grafoMatrizEnTripleta.mayorGrado());
+
     }
-    
+
 }

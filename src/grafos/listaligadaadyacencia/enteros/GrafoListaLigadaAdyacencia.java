@@ -20,16 +20,13 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-package grafos.ListaLigadaAdyacencia;
+package grafos.listaligadaadyacencia.enteros;
 
 import grafos.Conjunto;
 import grafos.Lado;
-import grafos.matrizincidencia.listaligadaforma1.GrafoMatrizIncidenciaEnListaLigadaForma1;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
-import matriz.util.NodoCabeza;
-import matriz.util.NodoDoble;
 
 /**
  *
@@ -156,6 +153,7 @@ public class GrafoListaLigadaAdyacencia {
         return lMenor;
     }
 
+    /**
     static public GrafoListaLigadaAdyacencia parseGrafoMatrizIncidenciaEnListaLigadaForma1(GrafoMatrizIncidenciaEnListaLigadaForma1 grafoOriginal) {
         NodoCabeza nc = grafoOriginal.getGrafo().getNc();
 
@@ -187,5 +185,6 @@ public class GrafoListaLigadaAdyacencia {
        GrafoListaLigadaAdyacencia grafoListaLigadaAdyacencia = new GrafoListaLigadaAdyacencia(gLocal);
        return grafoListaLigadaAdyacencia;
     }
+    **/
 
 }
