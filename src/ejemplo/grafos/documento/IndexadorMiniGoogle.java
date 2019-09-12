@@ -25,6 +25,6 @@ public class IndexadorMiniGoogle {
             glla.insertar("D2", palabra);
         }
 
-        System.out.println(" glla + " + glla);
+        glla.buscarGradoPalabras();
     }
 }

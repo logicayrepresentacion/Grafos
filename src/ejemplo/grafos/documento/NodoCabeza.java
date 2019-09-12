@@ -5,43 +5,42 @@
  */
 package ejemplo.grafos.documento;
 
+import java.util.LinkedList;
 import java.util.Objects;
 
 /**
  *
  * @author Usuario
  */
-public class Nodo implements Comparable<Nodo> {
+public class NodoCabeza implements Comparable<NodoCabeza> {
 
-    private Nodo liga;
-    private String dato;
+    private final LinkedList<Nombre> lista;
+    private Nombre dato;
     private final char tipo;
+    /**
+     * Se puede hacer un poco más objetual de dos formas 1. Con clases Palabra y
+     * Documento que heradan de nodo. 2. Con un enum para la D y la P.
+     */
     static final char DOCUMENTO = 'D';
     static final char PALABRA = 'P';
 
-    public Nodo(char tipo) {
+    /**
+     * 
+     * @param tipo 
+     */
+    public NodoCabeza(char tipo) {
         this.tipo = tipo;
+        lista = new LinkedList<>();
     }
 
-    public Nodo(String dato, char tipo) {
+    public NodoCabeza(Nombre dato, char tipo) {
         this.dato = dato;
         this.tipo = tipo;
+        lista = new LinkedList<>();
     }
 
-    public Nodo getLiga() {
-        return liga;
-    }
-
-    public void setLiga(Nodo liga) {
-        this.liga = liga;
-    }
-
-    public String getDato() {
+    public Nombre getDato() {
         return dato;
-    }
-
-    public void setDato(String dato) {
-        this.dato = dato;
     }
 
     public char getTipo() {
@@ -49,22 +48,22 @@ public class Nodo implements Comparable<Nodo> {
     }
 
     @Override
-    public int compareTo(Nodo o) {
+    public int compareTo(NodoCabeza o) {
         if (this.tipo != o.getTipo()) {
             return -1;
         } else {
-            return this.dato.compareToIgnoreCase(o.getDato());
+            return this.dato.compareTo(o.getDato());
         }
 
     }
 
     @Override
     public boolean equals(Object obj) {
-        Nodo o = (Nodo) obj;
+        NodoCabeza o = (NodoCabeza) obj;
         if (this.tipo != o.getTipo()) {
             return false;
         } else {
-            return this.dato.equalsIgnoreCase(o.getDato());
+            return this.dato.equals(o.getDato());
         }
     }
 
@@ -75,5 +74,16 @@ public class Nodo implements Comparable<Nodo> {
         hash = 79 * hash + this.tipo;
         return hash;
     }
+
+    @Override
+    public String toString() {
+        return dato.getNombre();
+    }
+
+    public LinkedList<Nombre> getLista() {
+        return lista;
+    }
+    
+    
 
 }

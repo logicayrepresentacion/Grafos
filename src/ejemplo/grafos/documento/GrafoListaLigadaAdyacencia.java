@@ -6,6 +6,7 @@
 package ejemplo.grafos.documento;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -13,10 +14,10 @@ import java.util.ArrayList;
  */
 public class GrafoListaLigadaAdyacencia {
 
-    private final ArrayList<Nodo> nodos;
+    private final ArrayList<NodoCabeza> nodosCabeza;
 
     public GrafoListaLigadaAdyacencia() {
-        nodos = new ArrayList<>();
+        nodosCabeza = new ArrayList<>();
     }
 
     /**
@@ -27,40 +28,78 @@ public class GrafoListaLigadaAdyacencia {
      * @param palabra
      */
     public void insertar(String documento, String palabra) {
-        Nodo documentoCabezaEnArreglo = new Nodo(documento, Nodo.DOCUMENTO);
-        Nodo palabraCabezaEnArreglo = new Nodo(palabra, Nodo.PALABRA);
 
-        int di = nodos.indexOf(documentoCabezaEnArreglo);
-        int pi = nodos.indexOf(palabraCabezaEnArreglo);
+        /**
+         * Validar si el nodo sea palabra o documento ya existe en el arraylist
+         * Si ya existe ese nodo es la cabeza de la lista ligada de adyacencia.
+         */
+        NodoCabeza documentoCabezaEnArreglo = new NodoCabeza(new Nombre(documento), NodoCabeza.DOCUMENTO);
+        NodoCabeza palabraCabezaEnArreglo = new NodoCabeza(new Nombre(palabra), NodoCabeza.PALABRA);
+
+        int di = nodosCabeza.indexOf(documentoCabezaEnArreglo);
+        int pi = nodosCabeza.indexOf(palabraCabezaEnArreglo);
 
         if (di == -1) {
-            nodos.add(documentoCabezaEnArreglo);
+            nodosCabeza.add(documentoCabezaEnArreglo);
         } else {
-            documentoCabezaEnArreglo = nodos.get(di);
+            documentoCabezaEnArreglo = nodosCabeza.get(di);
         }
 
         if (pi == -1) {
-            nodos.add(palabraCabezaEnArreglo);
+            nodosCabeza.add(palabraCabezaEnArreglo);
         } else {
-            palabraCabezaEnArreglo = nodos.get(pi);
+            palabraCabezaEnArreglo = nodosCabeza.get(pi);
         }
 
         /**
-         * En esta parte doc y pal representan las cabezas de las listas ligadas
-         * sea que existan o no
+         * En esta parte documentoCabezaEnArreglo y palabraCabezaEnArreglo
+         * representan las cabezas de las listas ligadas sea que existan o no
+         * Este fragmento de codigo adiciona en las dos listas ligadas Una por
+         * la lista para la palabra (en que documentos esta la palabra) Una por
+         * la lista de documentos (que palabras estan en el documento)
          */
-        Nodo palabraAdyante = new Nodo(palabra, Nodo.PALABRA);
-        Nodo documentoAdyante = new Nodo(documento, Nodo.DOCUMENTO);
-        
-        Nodo aux = palabraCabezaEnArreglo.getLiga();
-        documentoAdyante.setLiga(aux);
-        palabraCabezaEnArreglo.setLiga(documentoAdyante);
-        
-        aux = documentoCabezaEnArreglo.getLiga();
-        palabraAdyante.setLiga(aux);
-        documentoCabezaEnArreglo.setLiga(palabraAdyante);
+
+        List lista = palabraCabezaEnArreglo.getLista();
+        if (! lista.contains(documento)){
+            lista.add(documento);
+        }
+
+        lista = documentoCabezaEnArreglo.getLista();
+        if (! lista.contains(palabra)){
+            lista.add(palabra);
+        }
+       
     }
-    
-    
+
+    /**
+     * Conocer cual era la palabra que más se utilizaba en el grafo Esto me
+     * daría idea de que hablaban los documentos
+     *
+     * @return
+     */
+    public NodoCabeza buscarGradoPalabras() {
+
+        /**
+         * Recorro los nodos
+         */
+        int contador;
+        int maximoContador = -1;
+        List lista;
+        NodoCabeza nodoMaximo = null;
+        for (NodoCabeza cabezaAuxiliar : nodosCabeza) {
+            if (cabezaAuxiliar != null && cabezaAuxiliar.getTipo() == NodoCabeza.PALABRA) {
+                lista = cabezaAuxiliar.getLista();
+                contador = lista.size();
+                if (contador > maximoContador) {
+                    maximoContador = contador;
+                    nodoMaximo = cabezaAuxiliar;
+                }
+            }
+        }
+
+        System.out.println(" Nodo palabra con más relaciones \"" + nodoMaximo + "\" con un grado de " + maximoContador);
+        return nodoMaximo;
+
+    }
 
 }
