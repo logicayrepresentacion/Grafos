@@ -35,6 +35,22 @@ public class GrafoMatrizAdyacenciaEnMatriz {
     int n;
     int[][] adya;
 
+
+    public GrafoMatrizAdyacenciaEnMatriz(int cantidadVertices){
+        adya = new int[cantidadVertices][cantidadVertices];
+    }
+
+
+    /**
+     * Se supone que los vertices comienzan en 1
+     * @param i
+     * @param j
+     */
+    public void crearAdyacencia(int i, int j){
+        adya[i-1][j-1] = 1;
+    }
+
+
     /**
      *
      * @return
@@ -84,5 +100,7 @@ public class GrafoMatrizAdyacenciaEnMatriz {
         }
         return tablaEnvios;
     }
+
+
 
 }
