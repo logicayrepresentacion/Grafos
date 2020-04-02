@@ -22,7 +22,6 @@
  */
 package grafos.matrizadyacencia.matriz;
 
-import com.sun.javafx.geom.AreaOp;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -33,23 +32,37 @@ import java.util.Queue;
 public class GrafoMatrizAdyacenciaEnMatriz {
 
     int n;
-    int[][] adya;
+    int[][] matrizAdyacencia;
 
-
-    public GrafoMatrizAdyacenciaEnMatriz(int cantidadVertices){
-        adya = new int[cantidadVertices][cantidadVertices];
+    public GrafoMatrizAdyacenciaEnMatriz(int cantidadVertices) {
+        matrizAdyacencia = new int[cantidadVertices][cantidadVertices];
     }
-
 
     /**
      * Se supone que los vertices comienzan en 1
+     *
      * @param i
      * @param j
      */
-    public void crearAdyacencia(int i, int j){
-        adya[i-1][j-1] = 1;
+    public void crearAdyacencia(int i, int j) {
+        matrizAdyacencia[i][j] = 1;
     }
 
+    /**
+     * Retorna el grado de un vertice
+     *
+     * @param v
+     * @return
+     */
+    public int grado(int v) {
+        int contadorGrado = 0;
+        for (int j = 0; j < matrizAdyacencia.length; j++) {
+            if (matrizAdyacencia[v][j] == 1) {
+                contadorGrado++;
+            }
+        }
+        return contadorGrado;
+    }
 
     /**
      *
@@ -79,7 +92,7 @@ public class GrafoMatrizAdyacenciaEnMatriz {
      *
      * @param v
      */
-    void crearTabla(int v) {
+    int[][] crearTabla(int v) {
         // Arreglo 
         int[] visitados = new int[n];
         int[][] tablaEnvios = new int[n][n];
@@ -87,10 +100,10 @@ public class GrafoMatrizAdyacenciaEnMatriz {
         visitados[v] = 1;
         cola.add(v);
         while (!cola.isEmpty()) {
-            v = cola.poll();
+            v = (int) cola.poll();
             System.out.print("El vertice " + v + " debe enviar a los vertices \t");
             for (int w = 0; w < n; w++) {
-                if (adya[v][w] == 1) {
+                if (matrizAdyacencia[v][w] == 1) {
                     visitados[w] = 1;
                     System.out.print(" - " + w + "\t");
                     cola.add(w);
@@ -100,7 +113,5 @@ public class GrafoMatrizAdyacenciaEnMatriz {
         }
         return tablaEnvios;
     }
-
-
 
 }

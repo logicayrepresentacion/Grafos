@@ -34,24 +34,45 @@ import java.util.Queue;
  */
 public class GrafoListaLigadaAdyacencia {
 
-    Nodo[] g;
+    Nodo[] arregloNodosVertice;
 
     public GrafoListaLigadaAdyacencia(Nodo[] g) {
-        this.g = g;
+        this.arregloNodosVertice = g;
     }
 
-    public int getN(){
-        return g.length;
+    public GrafoListaLigadaAdyacencia(int numeroVertices) {
+        arregloNodosVertice = new Nodo[numeroVertices];
     }
-    
+
+    public void crearAdyacencia(int i, int j) {
+        Nodo nodoJ = new Nodo(j);
+        Nodo u = arregloNodosVertice[i];
+        nodoJ.setLiga(u);
+        arregloNodosVertice[i] = nodoJ;
+    }
+
+    public int grado(int v) {
+        int grado = 0;
+        Nodo r = arregloNodosVertice[v];
+        while (r != null) {
+            grado++;
+            r = r.getLiga();
+        }
+        return grado;
+    }
+
+    public int getN() {
+        return arregloNodosVertice.length;
+    }
+
     /**
      * Ejercicio 4 del texto guia
      */
     public void bfs() {
-        int[] visitados = new int[g.length];
+        int[] visitados = new int[arregloNodosVertice.length];
         Queue<Nodo> cola = new LinkedList<>();
         visitados[0] = 1;
-        cola.add(g[0]);
+        cola.add(arregloNodosVertice[0]);
         Nodo vaux;
         while (!cola.isEmpty()) {
             vaux = cola.poll();
@@ -68,12 +89,13 @@ public class GrafoListaLigadaAdyacencia {
             }
         }
     }
+
     /**
      * Ejercicio 4 del texto guia
      */
     public void dfs() {
-        Nodo v = g[0];
-        int[] visitados = new int[g.length];
+        Nodo v = arregloNodosVertice[0];
+        int[] visitados = new int[arregloNodosVertice.length];
         DFSRecursivo(visitados, v);
     }
 
@@ -82,7 +104,7 @@ public class GrafoListaLigadaAdyacencia {
         System.out.println("Visitando " + v.getVertice());
         Nodo t = v.getLiga();
         while (t != null) {
-              int i = t.getVertice();
+            int i = t.getVertice();
             if (visitados[i] == 0) {
                 DFSRecursivo(visitados, t);
             }
@@ -113,7 +135,7 @@ public class GrafoListaLigadaAdyacencia {
 
     private Conjunto crearLados() {
         Conjunto lados = new Conjunto();
-        for (Nodo n : g) {
+        for (Nodo n : arregloNodosVertice) {
             Nodo p = n.getLiga();
             while (p != null) {
                 Lado l = new Lado(n.getVertice(), p.getVertice());
@@ -126,7 +148,7 @@ public class GrafoListaLigadaAdyacencia {
 
     private Conjunto crearNoConectados() {
         Conjunto noConectados = new Conjunto();
-        for (Nodo n : g) {
+        for (Nodo n : arregloNodosVertice) {
             noConectados.add(n.getVertice());
         }
         return noConectados;
@@ -154,37 +176,25 @@ public class GrafoListaLigadaAdyacencia {
     }
 
     /**
-    static public GrafoListaLigadaAdyacencia parseGrafoMatrizIncidenciaEnListaLigadaForma1(GrafoMatrizIncidenciaEnListaLigadaForma1 grafoOriginal) {
-        NodoCabeza nc = grafoOriginal.getGrafo().getNc();
-
-        int n = nc.getT().getC();
-        Nodo[] gLocal = new Nodo[n];
-
-        NodoCabeza r = nc.getLiga();
-        while (r != nc) {
-            NodoDoble primerVertice = r.getLigaC();
-            NodoDoble segundoVertice = primerVertice.getLigaC();
-            int v1 = primerVertice.getT().getF();
-            int v2 = segundoVertice.getT().getF();
-
-            Nodo nodoV1 = new Nodo(v1);
-            Nodo nodoV2 = new Nodo(v2);
-            
-            nodoV2.setLiga( gLocal[v1 - 1] );
-            gLocal[v1 - 1] = nodoV2;
-
-            Nodo nodoAux = gLocal[v2 - 1];
-            if (nodoAux == null) {
-                gLocal[v2 - 1] = nodoV1;
-            }else {
-                nodoV1.setLiga( nodoAux );
-                gLocal[v2 - 1] = nodoV1;
-            }
-        }
-
-       GrafoListaLigadaAdyacencia grafoListaLigadaAdyacencia = new GrafoListaLigadaAdyacencia(gLocal);
-       return grafoListaLigadaAdyacencia;
-    }
-    **/
-
+     * static public GrafoListaLigadaAdyacencia
+     * parseGrafoMatrizIncidenciaEnListaLigadaForma1(GrafoMatrizIncidenciaEnListaLigadaForma1
+     * grafoOriginal) { NodoCabeza nc = grafoOriginal.getGrafo().getNc();
+     *
+     * int n = nc.getT().getC(); Nodo[] gLocal = new Nodo[n];
+     *
+     * NodoCabeza r = nc.getLiga(); while (r != nc) { NodoDoble primerVertice =
+     * r.getLigaC(); NodoDoble segundoVertice = primerVertice.getLigaC(); int v1
+     * = primerVertice.getT().getF(); int v2 = segundoVertice.getT().getF();
+     *
+     * Nodo nodoV1 = new Nodo(v1); Nodo nodoV2 = new Nodo(v2);
+     *
+     * nodoV2.setLiga( gLocal[v1 - 1] ); gLocal[v1 - 1] = nodoV2;
+     *
+     * Nodo nodoAux = gLocal[v2 - 1]; if (nodoAux == null) { gLocal[v2 - 1] =
+     * nodoV1; }else { nodoV1.setLiga( nodoAux ); gLocal[v2 - 1] = nodoV1; } }
+     *
+     * GrafoListaLigadaAdyacencia grafoListaLigadaAdyacencia = new
+     * GrafoListaLigadaAdyacencia(gLocal); return grafoListaLigadaAdyacencia; }
+     *
+     */
 }
