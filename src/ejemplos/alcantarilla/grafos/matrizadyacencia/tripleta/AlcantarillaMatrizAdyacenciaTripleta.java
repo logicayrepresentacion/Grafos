@@ -35,42 +35,40 @@ public class AlcantarillaMatrizAdyacenciaTripleta {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         /**
          * Para leer el teclado
          */
         Scanner sc = new Scanner(System.in);
         String linea = sc.nextLine();
-        int nv = Integer.parseInt(linea.trim());
+        int numeroVertices = Integer.parseInt(linea.trim());
 
         /**
          * matriz representada en memoria
          */
-        GrafoMatrizAdyacenciaEnMatrizTripleta grafoMatrizEnTripleta = new GrafoMatrizAdyacenciaEnMatrizTripleta(nv, nv);
+        GrafoMatrizAdyacenciaEnMatrizTripleta grafoMatrizEnTripleta = new GrafoMatrizAdyacenciaEnMatrizTripleta(numeroVertices);
 
         /**
          * Cargar la matriz de los datos ingresados por pantalla a la matriz en
          * memoria
          */
-        int cv = 0;
-        for (int i = 0; i < nv; i++) {
+        for (int i = 0; i < numeroVertices; i++) {
             linea = sc.nextLine();
-            for (int j = 0; j < nv; j++) {
+            for (int j = 0; j < numeroVertices; j++) {
                 if (linea.charAt(j) == '1') {
-                    cv++;
-                    Tripleta t = new Tripleta(i + 1, j + 1, 1);
-                    grafoMatrizEnTripleta.setTripleta(cv, t);
+                    grafoMatrizEnTripleta.crearAdyacencia(i, j);
                 }
             }
         }
 
-        Tripleta conf = new Tripleta(nv, nv, cv);
-        grafoMatrizEnTripleta.setTripleta(0, conf);
+        int[] grados = new int[numeroVertices];
 
-        /**
-         * Comparo para descubrir la respuesta
-         */
-        System.out.println("La alcantarilla  que se conecta más con otras alcantarillas es " + grafoMatrizEnTripleta.mayorGrado());
+        int[] verticesMayores = new int[numeroVertices];
+
+        for (int i = 0; i < numeroVertices; i++) {
+            grados[i] = grafoMatrizEnTripleta.grado(i);
+            System.out.println("Grado del vertice " + i + " " + grados[i]);
+        }
 
     }
 

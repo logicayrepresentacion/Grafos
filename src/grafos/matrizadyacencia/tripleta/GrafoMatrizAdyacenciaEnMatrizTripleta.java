@@ -22,29 +22,36 @@
  */
 package grafos.matrizadyacencia.tripleta;
 
-import grafos.listaligadaadyacencia.enteros.GrafoListaLigadaAdyacencia;
-import grafos.listaligadaadyacencia.enteros.Nodo;
 import matriz.tripleta.MatrizEnTripleta;
+import matriz.util.Tripleta;
 
 /**
  *
  * @author alejandroescobar
  */
-public class GrafoMatrizAdyacenciaEnMatrizTripleta extends MatrizEnTripleta {
+public class GrafoMatrizAdyacenciaEnMatrizTripleta {
 
-    public GrafoMatrizAdyacenciaEnMatrizTripleta(int f, int c) {
-        super(f, c);
+    MatrizEnTripleta matrizAdyacencia;
+
+    public GrafoMatrizAdyacenciaEnMatrizTripleta(int cantidadVertices) {
+        matrizAdyacencia = new MatrizEnTripleta(cantidadVertices, cantidadVertices);
     }
 
-    public int grado(int v) {
-        int cv = (int) tripletas[0].getV();
+    public void crearAdyacencia(int i, int j) throws Exception {
+        matrizAdyacencia.setCelda(i, j, 1);
+    }
+
+    public int grado(int vertice) {
+        int cv;
+        cv = matrizAdyacencia.getCantidadValores();
         int grado = 0;
+        Tripleta[] tripletas = matrizAdyacencia.getTripletas();
         for (int i = 1; i <= cv; i++) {
-            int f = tripletas[i].getF();
-            if (f < v) {
+            int fila = tripletas[i].getF();
+            if (fila < vertice) {
                 continue;
             }
-            if (f == v) {
+            if (fila == vertice) {
                 grado++;
             } else {
                 break;
@@ -53,35 +60,23 @@ public class GrafoMatrizAdyacenciaEnMatrizTripleta extends MatrizEnTripleta {
         return grado;
     }
 
-    public int mayorGrado() {
-        int cantidadValores = (int) tripletas[0].getV();
-        int gradoMayor = 0;
-        int gradoTemporal = 0;
-        int verticeGradoMayor = 0;
-        int verticeRecorrido = 1;
-        for (int i = 1; i <= cantidadValores; i++) {
-            int f = tripletas[i].getF();
-            if (f == verticeRecorrido) {
-                gradoTemporal++;
-            } else if (f > verticeRecorrido) {
-                if (gradoMayor < gradoTemporal) {
-                    gradoMayor = gradoTemporal;
-                    verticeGradoMayor = verticeRecorrido;
-                }
-                verticeRecorrido = f;
-                i--;
-                gradoTemporal = 0;
-            }
-        }
-
-        if (gradoMayor < gradoTemporal) {
-            gradoMayor = gradoTemporal;
-            verticeGradoMayor = verticeRecorrido;
-        }
-
-        return verticeGradoMayor;
+    /**
+     * public int mayorGrado() { int cantidadValores = (int)
+     * tripletas[0].getV(); int gradoMayor = 0; int gradoTemporal = 0; int
+     * verticeGradoMayor = 0; int verticeRecorrido = 1; for (int i = 1; i <= cantidadValores; i++) {
+     * int f = tripletas[i].getF();
+     * if (f == verticeRecorrido) {
+     * gradoTemporal++;
+     * } else if (f > verticeRecorrido) { if (gradoMayor < gradoTemporal) {
+     * gradoMayor = gradoTemporal; verticeGradoMayor = verticeRecorrido; }
+     * verticeRecorrido = f; i--; gradoTemporal = 0; } }
+     *
+     * if (gradoMayor < gradoTemporal) { gradoMayor = gradoTemporal;
+     * verticeGradoMayor = verticeRecorrido; }
+     *
+     * return verticeGradoMayor;
     }
-
+     */
     /**
      * Construye un Grafo Representado en Lista ligada de adyacencia basandose
      * en el grafo de la Matriz de Adyacencia almacenada en Matriz dispersa de
@@ -89,33 +84,28 @@ public class GrafoMatrizAdyacenciaEnMatrizTripleta extends MatrizEnTripleta {
      *
      * @return
      */
-    public GrafoListaLigadaAdyacencia parseGrafoListaLigadaAdyacencia() {
-
-        /**
-         * Creo el arreglo inicial
-         */
-        int cantidadVertices = (int) tripletas[0].getF();
-        Nodo[] arregloGrafoListaLigadaAdyacencia = new Nodo[cantidadVertices];
-
-        /**
-         * Recorrido de la matriz de tripletas
-         */
-        int cantidadValores = (int) tripletas[0].getV();
-        for (int i = 1; i <= cantidadValores; i++) {
-            int f = tripletas[i].getF();
-            int c = tripletas[i].getC();
-            /**
-             * Ingresar el verticeAdyancete a la lista ligada segun la posición
-             * en el arreglo
-             */
-            Nodo verticeAdyacente = new Nodo(c);
-            Nodo nodoViejoPrimero = arregloGrafoListaLigadaAdyacencia[f - 1];
-            verticeAdyacente.setLiga(nodoViejoPrimero);
-            arregloGrafoListaLigadaAdyacencia[f - 1] = verticeAdyacente;
-        }
-
-        return new GrafoListaLigadaAdyacencia(arregloGrafoListaLigadaAdyacencia);
-
-    }
-
+    // public GrafoListaLigadaAdyacencia parseGrafoListaLigadaAdyacencia() {
+    /**
+     * Creo el arreglo inicial
+     */
+    //  int cantidadVertices = (int) tripletas[0].getF();
+    //  Nodo[] arregloGrafoListaLigadaAdyacencia = new Nodo[cantidadVertices];
+    /**
+     * Recorrido de la matriz de tripletas
+     */
+    //  int cantidadValores = (int) tripletas[0].getV();
+    //   for (int i = 1; i <= cantidadValores; i++) {
+    //      int f = tripletas[i].getF();
+    //     int c = tripletas[i].getC();
+    /**
+     * Ingresar el verticeAdyancete a la lista ligada segun la posición en el
+     * arreglo
+     */
+    //   Nodo verticeAdyacente = new Nodo(c);
+    //   Nodo nodoViejoPrimero = arregloGrafoListaLigadaAdyacencia[f - 1];
+    //   verticeAdyacente.setLiga(nodoViejoPrimero);
+    //   arregloGrafoListaLigadaAdyacencia[f - 1] = verticeAdyacente;
+    //   }
+    //   return new GrafoListaLigadaAdyacencia(arregloGrafoListaLigadaAdyacencia);
+    //  }
 }
