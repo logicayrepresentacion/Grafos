@@ -27,6 +27,7 @@ import grafos.Lado;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
+import matriz.arreglobidimensional.MatrizEnArregloBidimensional;
 
 /**
  *
@@ -35,6 +36,7 @@ import java.util.Queue;
 public class GrafoListaLigadaAdyacencia {
 
     Nodo[] arregloNodosVertice;
+    matriz.arreglobidimensional.MatrizEnArregloBidimensional matrizCostos;
 
     public GrafoListaLigadaAdyacencia(Nodo[] g) {
         this.arregloNodosVertice = g;
@@ -93,26 +95,46 @@ public class GrafoListaLigadaAdyacencia {
     /**
      * Ejercicio 4 del texto guia
      */
-    public void dfs() {
-        Nodo v = arregloNodosVertice[0];
+    public void dfs(int verticeInicio) throws Exception {
+        if (verticeInicio >= arregloNodosVertice.length) {
+            throw new Exception("el vertice no existe");
+        }
+        Nodo v = arregloNodosVertice[verticeInicio];
         int[] visitados = new int[arregloNodosVertice.length];
         DFSRecursivo(visitados, v);
+    }
+
+    /**
+     * Ejercicio 4 del texto guia
+     *
+     * @throws java.lang.Exception
+     */
+    public void dfs() throws Exception {
+        this.dfs(0);
     }
 
     private void DFSRecursivo(int[] visitados, Nodo v) {
         visitados[v.getVertice()] = 1;
         System.out.println("Visitando " + v.getVertice());
-        Nodo t = v.getLiga();
-        while (t != null) {
-            int i = t.getVertice();
+        Nodo recorrido = v.getLiga();
+        while (recorrido != null) {
+            int i = recorrido.getVertice();
             if (visitados[i] == 0) {
-                DFSRecursivo(visitados, t);
+                DFSRecursivo(visitados, recorrido);
             }
-            t = t.getLiga();
+            recorrido = recorrido.getLiga();
         }
     }
 
-    public Conjunto prim() {
+    public void setMatrizCostos(MatrizEnArregloBidimensional matrizCostos) {
+        this.matrizCostos = matrizCostos;
+    }
+
+    public Conjunto prim() throws Exception {
+        if (matrizCostos == null) {
+            throw new Exception("No tienes matriz de costos, cargar antes de ejecución");
+        }
+
         Conjunto st = new Conjunto();
         Conjunto lados = crearLados();
         Conjunto conectados = new Conjunto();
@@ -121,14 +143,14 @@ public class GrafoListaLigadaAdyacencia {
         Nodo v = (Nodo) noConectados.get();
         conectados.add(v.getVertice());
         noConectados.remove(v.getVertice());
-        Lado lmc;
+        Lado ladoMenorCosto;
         while (!noConectados.empty()) {
-            lmc = seleccioneLado(conectados, lados);
-            st.add(lmc);
-            conectados.add(lmc.getVi());
-            conectados.add(lmc.getVj());
-            noConectados.remove(lmc.getVi());
-            noConectados.remove(lmc.getVj());
+            ladoMenorCosto = seleccioneLado(conectados, lados);
+            st.add(ladoMenorCosto);
+            conectados.add(ladoMenorCosto.getVi());
+            conectados.add(ladoMenorCosto.getVj());
+            noConectados.remove(ladoMenorCosto.getVi());
+            noConectados.remove(ladoMenorCosto.getVj());
         }
         return st;
     }
@@ -136,10 +158,10 @@ public class GrafoListaLigadaAdyacencia {
     private Conjunto crearLados() {
         Conjunto lados = new Conjunto();
         for (Nodo n : arregloNodosVertice) {
-            Nodo p = n.getLiga();
-            while (p != null) {
-                Lado l = new Lado(n.getVertice(), p.getVertice());
-                p = p.getLiga();
+            Nodo primero = n.getLiga();
+            while (primero != null) {
+                Lado l = new Lado(n.getVertice(), primero.getVertice(), (int) matrizCostos.getCelda(n.getVertice(), primero.getVertice()));
+                primero = primero.getLiga();
                 lados.add(l);
             }
         }
@@ -155,24 +177,24 @@ public class GrafoListaLigadaAdyacencia {
     }
 
     private Lado seleccioneLado(Conjunto conectados, Conjunto lados) {
-        Lado lMenor = null;
+        Lado ladoMenorCosto = null;
         for (Iterator iterator = conectados.iterator(); iterator.hasNext();) {
             Comparable v1 = (Comparable) iterator.next();
             for (Iterator iterator1 = lados.iterator(); iterator1.hasNext();) {
                 Lado lado = (Lado) iterator1.next();
                 if (lado.contieneVx(v1)) {
-                    if (lMenor != null) {
-                        if (lado.getCosto() < lMenor.getCosto()) {
-                            lMenor = lado;
+                    if (ladoMenorCosto != null) {
+                        if (lado.getCosto() < ladoMenorCosto.getCosto()) {
+                            ladoMenorCosto = lado;
                         }
                     } else {
-                        lMenor = lado;
+                        ladoMenorCosto = lado;
                     }
                 }
 
             }
         }
-        return lMenor;
+        return ladoMenorCosto;
     }
 
     /**

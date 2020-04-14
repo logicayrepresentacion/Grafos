@@ -22,6 +22,7 @@
  */
 package grafos.matrizadyacencia.matriz;
 
+import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -79,10 +80,7 @@ public class GrafoMatrizAdyacenciaEnMatriz {
      * cE.remove(lado); if (!formaCiclo(u, w, cV)) { cSt.add(lado);
      * unirConjuntos(u, w, cV); i = i + 1; } } return cSt; }
      */
-    void dfs(int v) {
-
-    }
-
+////
     /**
      * Esta método se basa en el algoritmo general de BSF Se crea una tabla
      * donde la fila corresponde a la base que enviaría el mensaje y la columna
@@ -112,6 +110,68 @@ public class GrafoMatrizAdyacenciaEnMatriz {
             }
         }
         return tablaEnvios;
+    }
+
+    /**
+     * Ejercicio 4 del texto guia
+     *
+     * @param verticeInicio
+     * @throws java.lang.Exception
+     */
+    public void dfs(int verticeInicio) throws Exception {
+        if (verticeInicio >= matrizAdyacencia.length) {
+            throw new Exception("el vertice no existe");
+        }
+        int[] visitados = new int[matrizAdyacencia.length];
+        DFSRecursivo(visitados, verticeInicio);
+    }
+
+    /**
+     * Ejercicio 4 del texto guia
+     *
+     * @throws java.lang.Exception
+     */
+    public void dfs() throws Exception {
+        this.dfs(0);
+    }
+
+    private void DFSRecursivo(int[] visitados, int v) {
+        visitados[v] = 1;
+        System.out.println("Visitando " + v);
+
+        for (int w = 0; w < matrizAdyacencia.length; w++) {
+            if (matrizAdyacencia[v][w] == 1) {
+                if (visitados[w] == 0) {
+                    DFSRecursivo(visitados, w);
+                }
+            }
+
+        }
+    }
+
+    public void bfs() {
+        this.bfs(0);
+    }
+
+    public void bfs(int v) {
+        Queue cola = new ArrayDeque();
+        int[] visitado = new int[matrizAdyacencia.length];
+        visitado[v] = 1;
+        System.out.println("Visitando " + v);
+        cola.add(v);
+        while (!cola.isEmpty()) {
+            v = (int) cola.poll();
+            for (int w = 0; w < matrizAdyacencia.length; w++) {
+                if (matrizAdyacencia[v][w] == 1) {
+                    if (visitado[w] == 0) {
+                        visitado[w] = 1;
+                        System.out.println("Visitando " + v);
+                        cola.add(w);
+                    }
+                }
+            }
+        }
+
     }
 
 }

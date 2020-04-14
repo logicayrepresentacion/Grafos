@@ -26,7 +26,8 @@ package grafos;
  *
  * @author alejandroescobar
  */
-public class Lado implements Comparable{
+public class Lado implements Comparable {
+
     private Comparable vi;
     private Comparable vj;
     private int costo;
@@ -34,6 +35,12 @@ public class Lado implements Comparable{
     public Lado(Comparable vi, Comparable vj) {
         this.vi = vi;
         this.vj = vj;
+    }
+
+    public Lado(Comparable vi, Comparable vj, int costo) {
+        this.vi = vi;
+        this.vj = vj;
+        this.costo = costo;
     }
 
     public Comparable getVi() {
@@ -68,7 +75,5 @@ public class Lado implements Comparable{
     public boolean contieneVx(Comparable v1) {
         return vi.equals(v1) || vj.equals(v1);
     }
-    
-    
-    
+
 }
