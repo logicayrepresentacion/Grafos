@@ -27,6 +27,7 @@ package grafos.multilistaligadaadyacencia;
  * @author Alejandro
  */
 public class NodoMultilista {
+
     private int vi;
     private int vj;
     private NodoMultilista ligaVi;
@@ -77,7 +78,10 @@ public class NodoMultilista {
     public void setSw(int sw) {
         this.sw = sw;
     }
-    
-    
-          
+
+    @Override
+    public String toString() {
+        return "(" + vi + "," + vj + ")";
+    }
+
 }
